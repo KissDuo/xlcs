@@ -16,16 +16,16 @@ router.get('/', function(req, res, next) {
         //     db.close();
         // });
 
-        // var myobj =  [
-        //     { name: '菜鸟工具', url: 'https://c.runoob.com', type: 'cn'},
-        //     { name: 'Google', url: 'https://www.google.com', type: 'en'},
-        //     { name: 'Facebook', url: 'https://www.google.com', type: 'en'}
-        // ];
-        // dbase.collection("site").insertMany(myobj, function(err, res) {
-        //     if (err) throw err;
-        //     console.log("插入的文档数量为: " + res.insertedCount);
-        //     db.close();
-        // });
+        var myobj =  [
+            { name: '菜鸟工具', url: 'https://c.runoob.com', type: 'cn'},
+            { name: 'Google', url: 'https://www.google.com', type: 'en'},
+            { name: 'Facebook', url: 'https://www.google.com', type: 'en'}
+        ];
+        dbase.collection("site").insertMany(myobj, function(err, res) {
+            if (err) throw err;
+            console.log("插入的文档数量为: " + res.insertedCount);
+            db.close();
+        });
         //
         // dbase.collection("site"). find({}).toArray(function(err, result) { // 返回集合中所有数据
         //     if (err) throw err;
