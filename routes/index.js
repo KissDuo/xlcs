@@ -25,8 +25,6 @@ router.post('/insertUser', function(req, res, next) {
     request(code2SessionUrl, function (error, response, body) {//通过code获取openid
         if (!error && response.statusCode == 200) {
             var openId = JSON.parse(body).openid;
-            userInfo.openid = openId;
-            console.log(code,openId)
                 // sessionKey = JSON.parse(body).session_key;
             //通过openid查询数据库
             MongoClient.connect(url,{useNewUrlParser:true}, function (err, db) {
@@ -44,6 +42,7 @@ router.post('/insertUser', function(req, res, next) {
                     }else{//用户没授权过
                         console.log("用户不存在");
                         userInfo.registerDate = Util.getDate();//用户注册时间
+                        userInfo.openid = openId;//用户openid
                         dbase.collection("user").insertOne(userInfo, function(err, res) {
                             if (err) throw err;
                             console.log("插入的文档数量为: " + res.insertedCount);
