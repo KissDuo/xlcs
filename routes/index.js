@@ -26,6 +26,7 @@ router.post('/insertUser', function(req, res, next) {
     request(code2SessionUrl, function (error, response, body) {//通过code获取openid
         if (!error && response.statusCode == 200) {
             var openId = JSON.parse(body).openid;
+            console.log(openId)
                 // sessionKey = JSON.parse(body).session_key;
             //通过openid查询数据库
             MongoClient.connect(url,{useNewUrlParser:true}, function (err, db) {
