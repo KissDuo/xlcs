@@ -9,10 +9,11 @@ var debug = require('debug')('xlcs:server');
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
+var path = require('path');
 
 const httpsOtion = {
-    key : fs.readFileSync("../https/1542501_xlcs.dtzhuanjia.com.key"),
-    cert : fs.readFileSync("../https/1542501_xlcs.dtzhuanjia.com.pem")
+    key : fs.readFileSync(path.join(__dirname,"../public/https/1542501_xlcs.dtzhuanjia.com.key")),
+    cert : fs.readFileSync(path.join(__dirname,"../public/https/1542501_xlcs.dtzhuanjia.com.pem"))
 }
 
 /**
