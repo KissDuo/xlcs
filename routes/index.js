@@ -49,6 +49,7 @@ router.post('/insertUser', function(req, res, next) {
                     }else{//用户没授权过
                         console.log("用户不存在");
                         userInfo.registerDate = Util.getDate();//用户注册时间
+                        userInfo.openid = openId;
                         dbase.collection("user").insertOne(userInfo, function(err, res) {
                             if (err) throw err;
                             console.log("插入的文档数量为: " + res.insertedCount);
