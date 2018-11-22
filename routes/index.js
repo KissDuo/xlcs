@@ -23,6 +23,7 @@ router.post('/insertUser', function(req, res, next) {
     var userInfo = req.query.user_info || "",
         code = req.query.user_info.code || "",
         code2SessionUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=wx94108cc16a47be51&secret=6d11bb7e8e65b2453a43c2b8a394e533&js_code="+code+"&grant_type=authorization_code";
+    console.log(code2SessionUrl);
 
     request(code2SessionUrl, function (error, response, body) {//通过code获取openid
         if (!error && response.statusCode == 200) {
