@@ -24,8 +24,8 @@ router.post('/insertUser', function(req, res, next) {
 
     request(code2SessionUrl, function (error, response, body) {//通过code获取openid
         if (!error && response.statusCode == 200) {
+            console.log("----访问接口---- IP:"+Util.getIp(req));
             var openId = JSON.parse(body).openid;
-                // sessionKey = JSON.parse(body).session_key;
             //通过openid查询数据库
             MongoClient.connect(url,{useNewUrlParser:true}, function (err, db) {
                 if (err) throw err;
@@ -45,7 +45,7 @@ router.post('/insertUser', function(req, res, next) {
                         userInfo.openid = openId;//用户openid
                         dbase.collection("user").insertOne(userInfo, function(err, res) {
                             if (err) throw err;
-                            console.log("插入的文档数量为: " + res.insertedCount);
+                            // console.log("插入的文档数量为: " + res.insertedCount);
                         });
                         res.send({
                             status : 1,
