@@ -38,7 +38,7 @@ httpServer.listen(port);
 httpServer.on('http_error', onError);
 httpServer.on('http_listening', onListening1);
 
-httpsServer.listen(8000);
+httpsServer.listen(443);
 httpsServer.on('https_error', onError);
 httpsServer.on('https_listening', onListening2);
 
