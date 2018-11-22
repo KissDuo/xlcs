@@ -2,17 +2,19 @@ var express = require('express');
 var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
 var request = require('request');
+var Util = require('../public/js/util.js');
 
 var url = "mongodb://127.0.0.1:27017/db";
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+
     res.render('index', { title: 'Express' });
-    MongoClient.connect(url,{useNewUrlParser:true}, function (err, db) {
-        if (err) throw err;
-        console.log('数据库已创建');
-        var dbase = db.db("xlcs");
-    });
+    // MongoClient.connect(url,{useNewUrlParser:true}, function (err, db) {
+    //     if (err) throw err;
+    //     console.log('数据库已创建');
+    //     var dbase = db.db("xlcs");
+    // });
 });
 
 router.post('/insertUser', function(req, res, next) {
@@ -45,7 +47,8 @@ router.post('/insertUser', function(req, res, next) {
                             msg : "用户已存在"
                         });
                     }else{//用户没授权过
-                        console.log("用户不存在")
+                        console.log("用户不存在");
+                        userInfo.registerDate = Util.getDate();//用户注册时间
                         dbase.collection("user").insertOne(userInfo, function(err, res) {
                             if (err) throw err;
                             console.log("插入的文档数量为: " + res.insertedCount);
