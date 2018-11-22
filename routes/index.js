@@ -16,60 +16,46 @@ router.get('/', function(req, res, next) {
         //     console.log("创建集合!");
         //     db.close();
         // });
-
-        var myobj =  {
-            nickName: " W's-Superman",
-            gender: 1,
-            language: "zh_CN",
-            city: "",
-            province: "",
-        };
     });
 });
 
 router.get('/insertUser', function(req, res, next) {
     var userInfo = req.query.user_info || "",
-        code2SessionUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=wx94108cc16a47be51&secret=6d11bb7e8e65b2453a43c2b8a394e533&js_code=001Du0lQ0bVBT92hJnjQ0NEZkQ0Du0l8&grant_type=authorization_code";
+        code = req.query.user_info.code || "",
+        code2SessionUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=wx94108cc16a47be51&secret=6d11bb7e8e65b2453a43c2b8a394e533&js_code="+code+"&grant_type=authorization_code";
 
-    request(code2SessionUrl, function (error, response, body) {
+    request(code2SessionUrl, function (error, response, body) {//通过code获取openid
         if (!error && response.statusCode == 200) {
-            var openId = JSON.parse(body).openid,
-                sessionKey = JSON.parse(body).session_key;
-
+            var openId = JSON.parse(body).openid;
+                // sessionKey = JSON.parse(body).session_key;
+            //通过openid查询数据库
             MongoClient.connect(url,{useNewUrlParser:true}, function (err, db) {
                 if (err) throw err;
                 var dbase = db.db("xlcs");
                 dbase.collection("user").find({"openid":openId}).toArray(function (err, result) { // 返回集合中所有数据
                     if (err) throw err;
-                    console.log(userInfo);
-                    console.log(result);
                     if(result.length > 0){//用户授权过
                         console.log("用户已存在");
+                        res.send({
+                            status : 1,
+                            msg : "用户已存在"
+                        });
                     }else{//用户没授权过
-                        var myobj =  {
-                            nickName: " W's-Superman",
-                            gender: 1,
-                            language: "zh_CN",
-                            city: "",
-                            province: "",
-                            openid : "oBE9K5OsMRelzssSsc3WArO_4Yag"
-                        };
-                        dbase.collection("user").insertOne(myobj, function(err, res) {
+                        dbase.collection("user").insertOne(userInfo, function(err, res) {
                             if (err) throw err;
                             console.log("插入的文档数量为: " + res.insertedCount);
                             db.close();
+                        });
+                        res.send({
+                            status : 1,
+                            msg : "用户不存在，已成功添加"
                         });
                     }
                     db.close();
                 });
             });
-            console.log(body);
-            console.log(openId);
-            console.log(JSON.parse(body).openid);
         }
     });
-
-    res.render('index', { title: 'Express' });
 });
 
 module.exports = router;
