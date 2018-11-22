@@ -1,5 +1,6 @@
 .idea/
 .vscode
+*/bin/
 bin/
 node_modules/
 */node_modules/
