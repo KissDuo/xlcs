@@ -7,6 +7,13 @@
 var app = require('../app');
 var debug = require('debug')('xlcs:server');
 var http = require('http');
+var https = require('https');
+var fs = require('fs');
+
+const httpsOtion = {
+    key : fs.readFileSync("../https/1542501_xlcs.dtzhuanjia.com.key"),
+    cert : fs.readFileSync("../https/1542501_xlcs.dtzhuanjia.com.pem")
+}
 
 /**
  * Get port from environment and store in Express.
@@ -19,7 +26,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = http.createServer(httpsOtion,app);
 
 /**
  * Listen on provided port, on all network interfaces.
