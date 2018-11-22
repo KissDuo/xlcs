@@ -18,7 +18,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/insertUser', function(req, res, next) {
-    console.log("已进入");
     var userInfo = req.body || {},
         code = req.body.code || "",
         code2SessionUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=wx94108cc16a47be51&secret=6d11bb7e8e65b2453a43c2b8a394e533&js_code="+code+"&grant_type=authorization_code";
@@ -26,6 +25,7 @@ router.post('/insertUser', function(req, res, next) {
     request(code2SessionUrl, function (error, response, body) {//通过code获取openid
         if (!error && response.statusCode == 200) {
             var openId = JSON.parse(body).openid;
+            userInfo.openid = openId;
             console.log(openId)
                 // sessionKey = JSON.parse(body).session_key;
             //通过openid查询数据库
@@ -50,7 +50,6 @@ router.post('/insertUser', function(req, res, next) {
                     }else{//用户没授权过
                         console.log("用户不存在");
                         userInfo.registerDate = Util.getDate();//用户注册时间
-                        userInfo.openid = openId;
                         dbase.collection("user").insertOne(userInfo, function(err, res) {
                             if (err) throw err;
                             console.log("插入的文档数量为: " + res.insertedCount);
