@@ -20,6 +20,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/insertUser', function(req, res, next) {
+    console.log("已进入");
     var userInfo = req.query.user_info || "",
         code = req.query.user_info.code || "",
         code2SessionUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=wx94108cc16a47be51&secret=6d11bb7e8e65b2453a43c2b8a394e533&js_code="+code+"&grant_type=authorization_code";
