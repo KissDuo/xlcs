@@ -45,10 +45,10 @@ router.post('/insertUser', function(req, res, next) {
                             msg : "用户已存在"
                         });
                     }else{//用户没授权过
+                        console.log("用户不存在")
                         dbase.collection("user").insertOne(userInfo, function(err, res) {
                             if (err) throw err;
                             console.log("插入的文档数量为: " + res.insertedCount);
-                            db.close();
                         });
                         res.send({
                             status : 1,
