@@ -17,8 +17,8 @@ router.get('/', function(req, res, next) {
 
 router.post('/insertUser', function(req, res, next) {
     console.log("已进入");
-    var userInfo = req.body.user_info || "",
-        code = userInfo.code || "",
+    var userInfo = req.body || {},
+        code = req.body.code || "",
         code2SessionUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=wx94108cc16a47be51&secret=6d11bb7e8e65b2453a43c2b8a394e533&js_code="+code+"&grant_type=authorization_code";
 
     request(code2SessionUrl, function (error, response, body) {//通过code获取openid
@@ -30,11 +30,11 @@ router.post('/insertUser', function(req, res, next) {
                 if (err) throw err;
                 var dbase = db.db("xlcs");
                 //没有则创建
-                dbase.createCollection('user', function (err, res) {
-                    if (err) throw err;
-                    console.log("创建集合!");
-                    db.close();
-                });
+                // dbase.createCollection('user', function (err, res) {
+                //     if (err) throw err;
+                //     console.log("创建集合!");
+                //     db.close();
+                // });
                 //查询用户
                 dbase.collection("user").find({"openid":openId}).toArray(function (err, result) { // 返回集合中所有数据
                     if (err) throw err;
