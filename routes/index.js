@@ -26,18 +26,12 @@ router.post('/insertUser', function(req, res, next) {
         if (!error && response.statusCode == 200) {
             var openId = JSON.parse(body).openid;
             userInfo.openid = openId;
-            console.log(openId)
+            console.log(code,openId)
                 // sessionKey = JSON.parse(body).session_key;
             //通过openid查询数据库
             MongoClient.connect(url,{useNewUrlParser:true}, function (err, db) {
                 if (err) throw err;
                 var dbase = db.db("xlcs");
-                //没有则创建
-                // dbase.createCollection('user', function (err, res) {
-                //     if (err) throw err;
-                //     console.log("创建集合!");
-                //     db.close();
-                // });
                 //查询用户
                 dbase.collection("user").find({"openid":openId}).toArray(function (err, result) { // 返回集合中所有数据
                     if (err) throw err;
