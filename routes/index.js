@@ -25,6 +25,8 @@ router.post('/insertUser', function(req, res, next) {
                     sql_insert_user = "insert into user(city,avatarUrl,country,gender,language,nickName,province,openId) VALUES(?,?,?,?,?,?,?)",
                     data_list = Util.objToArray(req.body);
                 data_list.push(JSON.parse(body).openid);
+
+                console.log(data_list);
                 connection.query(sql_check_user, function (err, result) {
                     try{
                         if(result && result.length > 0){
