@@ -28,15 +28,6 @@ Util.getIp = function(req) {
 //对象转数组
 Util.objToArray = function(obj){
     var arr = [];
-    var obj = { city: '',
-        avatarUrl: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKgNuRNozic1xl1wVzN2JAoPdbEEicI5VNzRM3cFJjK9Wdwia75icib2StKTCdTj2oICWgbIKUsG9yAjEQ/132',
-        code: '021G5bht1vWt4e07Noht1wxAht1G5bhX',
-        country: 'St.Kitts and Nevis',
-        gender: 1,
-        language: 'zh_CN',
-        nickName: ' W\'s-Superman',
-        province: ''
-    }
     for(var i=0;i<Object.keys(obj).length;i++){
         arr.push(obj[Object.keys(obj)[i]]);
     }

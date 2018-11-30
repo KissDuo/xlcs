@@ -16,7 +16,6 @@ router.post('/insertUser', function(req, res, next) {
     var code = req.body.code || "",
         code2SessionUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=wx94108cc16a47be51&secret=6d11bb7e8e65b2453a43c2b8a394e533&js_code="+code+"&grant_type=authorization_code";
 
-    console.log(req.body);
     request(code2SessionUrl, function (error, response, body) {//通过code获取openid
         if (!error && response.statusCode == 200) {
             console.log("----访问接口---- IP:"+Util.getIp(req));
@@ -25,6 +24,7 @@ router.post('/insertUser', function(req, res, next) {
                 var sql_check_user = "select * from user where openId = " + JSON.parse(body).openid,
                     sql_insert_user = "insert into user(city,avatarUrl,country,gender,language,nickName,province) VALUES(?,?,?,?,?,?,?)",
                     data_list = Util.objToArray(req.body);
+                console.log(data_list);
                 connection.query(sql_check_user, function (err, result) {
                     try{
                         if(result && result.length > 0){
