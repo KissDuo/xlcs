@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 });
 
 /**/
-router.post('/insertUser', function(req, res, next) {
+router.get('/insertUser', function(req, res, next) {
     var code = req.body.code || "",
         code2SessionUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=wx94108cc16a47be51&secret=6d11bb7e8e65b2453a43c2b8a394e533&js_code="+code+"&grant_type=authorization_code";
 
@@ -21,7 +21,7 @@ router.post('/insertUser', function(req, res, next) {
             console.log("----访问接口---- IP:"+Util.getIp(req));
             //通过openid查询数据库
             pool.getConnection(function(err,connection) {
-                var sql_check_user = "select * from user where openId = " + JSON.parse(body).openid,
+                var sql_check_user = "select * from user where openId = '" + JSON.parse(body).openid + "'",
                     sql_insert_user = "insert into user(city,avatarUrl,country,gender,language,nickName,province,openId) VALUES(?,?,?,?,?,?,?,?)",
                     data_list = Util.objToArray(req.body);
                 data_list.push(JSON.parse(body).openid);
@@ -36,20 +36,20 @@ router.post('/insertUser', function(req, res, next) {
                             });
                         }else{
                             console.log("用户不存在");
-                            connection.query(sql_insert_user, data_list, function (err, result) {
+                            connection.query(sql_insert_user, data_list, function (err, ret) {
                                 if(err){
                                     console.log("用户新增成功");
                                     res.json({
                                         status_code : "-1",
                                         msg:"用户新增失败"
-                                    })
+                                    });
                                     return;
                                 }else{
                                     console.log("用户新增成功");
                                     res.json({
                                         status_code : "1",
                                         msg:"用户新增成功"
-                                    })
+                                    });
                                 }
                             });
                         }
