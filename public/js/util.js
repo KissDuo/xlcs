@@ -29,7 +29,9 @@ Util.getIp = function(req) {
 Util.objToArray = function(obj){
     var arr = [];
     for(var i=0;i<Object.keys(obj).length;i++){
-        arr.push(obj[Object.keys(obj)[i]]);
+        if(Object.keys(obj)[i] != "code"){
+            arr.push(obj[Object.keys(obj)[i]]);
+        }
     }
     return arr;
 };
