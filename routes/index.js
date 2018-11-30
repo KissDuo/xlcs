@@ -22,9 +22,9 @@ router.post('/insertUser', function(req, res, next) {
             //通过openid查询数据库
             pool.getConnection(function(err,connection) {
                 var sql_check_user = "select * from user where openId = " + JSON.parse(body).openid,
-                    sql_insert_user = "insert into user(city,avatarUrl,country,gender,language,nickName,province) VALUES(?,?,?,?,?,?,?)",
+                    sql_insert_user = "insert into user(city,avatarUrl,country,gender,language,nickName,province,openId) VALUES(?,?,?,?,?,?,?)",
                     data_list = Util.objToArray(req.body);
-                console.log(data_list);
+                data_list.push(JSON.parse(body).openid);
                 connection.query(sql_check_user, function (err, result) {
                     try{
                         if(result && result.length > 0){
