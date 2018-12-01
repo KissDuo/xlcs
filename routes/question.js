@@ -13,7 +13,7 @@ router.get('/getList', function(req, res, next) {
             try{
                 if(result && result.length > 0){
                     var data = [];
-                    for(var i=0;i<result.length;i++){
+                    for(var i=0;i<result.length;i++){//将数据库中 '字符串数组'->'数组'
                         result[i].result = eval(result[i].result);
                         result[i].pages = eval(result[i].pages);
                         data.push(result[i]);
