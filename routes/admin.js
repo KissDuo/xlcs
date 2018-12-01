@@ -7,7 +7,7 @@ var pool = mysql.createPool(dbConfig.mysql );
 
 /*后台首页*/
 router.get('/', function(req, res, next) {
-
+    res.render('admin/insertQuestion', { title: 'Express' });
 });
 
 
