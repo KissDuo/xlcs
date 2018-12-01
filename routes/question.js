@@ -15,7 +15,7 @@ router.get('/getInfo', function(req, res, next) {
                 if(result && result.length > 0){
                     var data = result[0];
                     data.result = eval(data.result);
-                    data.selects = eval(data.selects);
+                    data.pages = eval(data.pages);
                     var res_json = {
                         status_code : 1,
                         msg : "查询成功",
