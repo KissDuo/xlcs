@@ -1,0 +1,30 @@
+/*增加问题*/
+.add-question .qItem{
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom:1px solid #ccc;
+}
+.add-question label.layui-input-block{
+    margin-left: 0;
+}
+.add-question .layui-input-block.mb20{
+    margin-bottom: 10px;
+}
+.add-question .layui-input-block p.layui-text{
+    margin-bottom: 10px;
+    width:150px;
+    margin-right: 10px;
+}
+.add-question .layui-input-block p.layui-text .layui-badge{
+    margin-right:6px;
+}
+.add-question .layui-input.w80{
+    width:80%;
+    display: inline-block;
+}
+.add-question .layui-input.w5{
+    width:5%;
+    display: inline-block;
+    text-align: center;
+    padding-left: 0;
+}
