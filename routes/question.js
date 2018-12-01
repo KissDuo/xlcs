@@ -13,10 +13,13 @@ router.get('/getInfo', function(req, res, next) {
         connection.query(sql_get_question, function (err, result) {
             try{
                 if(result && result.length > 0){
+                    var data = result[0];
+                    data.result = eval(data.result);
+                    data.selects = eval(data.selects);
                     var res_json = {
                         status_code : 1,
                         msg : "查询成功",
-                        data : result[0]
+                        result : data
                     };
                     console.log("查询问题qid:"+qid+"成功");
                     res.json(res_json);
