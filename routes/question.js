@@ -51,13 +51,15 @@ router.get('/getList', function(req, res, next) {
 router.get('/getInfo', function(req, res, next) {
     var qid = req.query.qid || "";
     pool.getConnection(function(err,connection) {
-        var sql_get_question = "select * from question where qid = '" + qid + "'";
+        var sql_get_question = "select * from question where qid = '" + qid + "'",
+            current_do_counts = 1;
         connection.query(sql_get_question, function (err, result) {
             try{
                 if(result && result.length > 0){
                     var data = result[0];
-                    data.result = eval(data.result);
-                    data.pages = eval(data.pages);
+                    current_do_counts = ++data.do_counts;//浏览次数
+                    data.result = eval(data.result);//结果列表
+                    data.pages = eval(data.pages);//题目列表
                     var res_json = {
                         status_code : 1,
                         msg : "查询成功",
@@ -65,6 +67,15 @@ router.get('/getInfo', function(req, res, next) {
                     };
                     console.log("查询问题qid:"+qid+"成功");
                     res.json(res_json);
+                    /*增加浏览次数*/
+                    var sql_add_do_counts = "update question set do_counts = '" + current_do_counts + "' where qid = '" + qid + "'";
+                    connection.query(sql_add_do_counts, function (err, result) {
+                        try{
+                            console.log("增加浏览次数成功："+current_do_counts);
+                        }catch (e) {
+                            console.log(e);
+                        }
+                    });
                 }else{
                     console.log("查询问题qid:"+qid+"不存在");
                     res.json({
@@ -84,6 +95,5 @@ router.get('/getInfo', function(req, res, next) {
         });
     });
 });
-
 
 module.exports = router;
